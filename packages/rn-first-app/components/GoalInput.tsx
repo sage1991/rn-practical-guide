@@ -39,7 +39,7 @@ export const GoalInput: FC<Props> = (props) => {
             <Button title="CANCEL" color="#ff0000" onPress={props.hide} />
           </View>
           <View style={styles.add}>
-            <Button title="+ ADD" onPress={onSubmit} />
+            <Button title="+ ADD" disabled={!goal} onPress={onSubmit} />
           </View>
         </View>
       </View>

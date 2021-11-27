@@ -16,7 +16,7 @@ export default function App() {
   }
 
   const removeGoal = (id: number) => {
-    setGoals(prev => prev.filter(item => item.id !== id))
+    setGoals(prev => prev.root(item => item.id !== id))
   }
 
   return (

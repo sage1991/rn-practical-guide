@@ -5,7 +5,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import { CategoriesScreen, CategoryMealsScreen, MealDetailScreen } from "../../screens"
 import { HeaderButton } from "../../components"
-import { categories, meals } from "../../__mock__"
 import { Colors, Fonts } from "../../theme"
 
 
@@ -54,28 +53,10 @@ export const MealsNavigator: FC = () => {
       <Stack.Screen
         name="category-meals"
         component={CategoryMealsScreen}
-        options={(props) => {
-          const category = categories.find(category => category.id === props.route.params.id)!
-          return { headerTitle: category.title }
-        }}
       />
       <Stack.Screen
         name="meal-detail"
         component={MealDetailScreen}
-        options={(props) => {
-          const meal = meals.find(meal => meal.id === props.route.params.id)!
-          return {
-            headerTitle: meal.title,
-            headerRight: () => (
-              <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                <Item
-                  title="favorite"
-                  iconName="ios-star"
-                />
-              </HeaderButtons>
-            )
-          }
-        }}
       />
     </Stack.Navigator>
   )

@@ -1,25 +1,33 @@
-import React, { FC, useCallback, useLayoutEffect, useState } from "react"
+import React, { FC, useCallback, useEffect, useLayoutEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import { Typography } from "../components/Typography"
 import { FilterSwitch, HeaderButton } from "../components"
 import { RootNavigatorParams, ScreenProps } from "../navigation"
+import { useDispatch, setFilter, useSelector } from "../store"
 import { Fonts } from "../theme"
 
 
 type Props = ScreenProps<RootNavigatorParams, "filters">
 
 export const FiltersScreen: FC<Props> = (props) => {
-  const [ isGlutenFree, setIsGlutenFree ] = useState<boolean>(false)
-  const [ isVegan, setIsVegan ] = useState<boolean>(false)
-  const [ isVegetarian, setIsVegetarian ] = useState<boolean>(false)
-  const [ isLactoseFree, setIsLactoseFree ] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const filters = useSelector(state => state.meals.filters)
+  const [ isGlutenFree, setIsGlutenFree ] = useState<boolean>(filters.isGlutenFree)
+  const [ isVegan, setIsVegan ] = useState<boolean>(filters.isVegan)
+  const [ isVegetarian, setIsVegetarian ] = useState<boolean>(filters.isVegetarian)
+  const [ isLactoseFree, setIsLactoseFree ] = useState<boolean>(filters.isLactoseFree)
 
   const saveFilters = useCallback(() => {
     const filters = { isGlutenFree, isVegan, isVegetarian, isLactoseFree }
-    console.log(filters)
+    dispatch(setFilter(filters))
   }, [ isGlutenFree, isVegan, isVegetarian, isLactoseFree ])
+
+  useEffect(() => {
+    const filters = { isGlutenFree, isVegan, isVegetarian, isLactoseFree }
+    dispatch(setFilter(filters))
+  }, [ saveFilters ])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({

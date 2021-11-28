@@ -4,10 +4,12 @@ import { enableScreens } from "react-native-screens"
 import { StatusBar } from "expo-status-bar"
 import AppLoading from "expo-app-loading"
 import { loadAsync } from "expo-font"
+import { Provider } from "react-redux"
 import "react-native-gesture-handler"
 
 import { Fonts } from "./theme"
 import { RootNavigator } from "./navigation"
+import { store } from "./store"
 
 
 enableScreens()
@@ -32,9 +34,11 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <RootNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <RootNavigator />
+      </NavigationContainer>
+    </Provider>
   )
 }

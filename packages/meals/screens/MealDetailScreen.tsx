@@ -1,16 +1,40 @@
-import React, { FC } from "react"
+import React, { FC, useLayoutEffect } from "react"
 import { StyleSheet, View, ScrollView, Image } from "react-native"
+import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import { FavoritesNavigatorParams, MealsNavigatorParams, ScreenProps } from "../navigation"
 import { Typography } from "../components/Typography"
 import { Colors, Fonts } from "../theme"
-import { meals } from "../__mock__"
+import { useDispatch, useSelector, toggleFavorite } from "../store"
+import { HeaderButton } from "../components"
 
 
 type Props = ScreenProps<MealsNavigatorParams | FavoritesNavigatorParams, "meal-detail">
 
 export const MealDetailScreen: FC<Props> = (props) => {
-  const meal = meals.find(meal => meal.id === props.route.params.id)!
+  const mealId = props.route.params.id
+  const dispatch = useDispatch()
+  const meal = useSelector(state => (
+    state.meals.list.find(meal => meal.id === mealId)!
+  ))
+  const isFavorite = useSelector(state => (
+    state.meals.favorites.some(meal => meal.id === mealId)
+  ))
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerTitle: meal.title,
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="favorite"
+            iconName={isFavorite ? "ios-star" : "ios-star-outline"}
+            onPress={() => dispatch(toggleFavorite(meal.id))}
+          />
+        </HeaderButtons>
+      )
+    })
+  }, [ isFavorite, meal, props.navigation ])
 
   const ingredients: JSX.Element[] = meal.ingredients.map((ingredient, index) =>
     <View key={index} style={styles.listItem}>

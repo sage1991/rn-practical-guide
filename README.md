@@ -77,7 +77,7 @@ $ lerna import /path/to/expo/project
 ```shell
 # inside of monorepo directory
 $ cd packages/<project-name>
-$ yarn workspaces add expo-yarn-workspaces -D
+$ yarn add expo-yarn-workspaces -D
 ```
 아래를 script에 추가
 ```json

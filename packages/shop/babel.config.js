@@ -1,6 +1,16 @@
-module.exports = function(api) {
-  api.cache(true);
+const path = require("path")
+
+module.exports = function (api) {
+  api.cache(true)
   return {
-    presets: ['babel-preset-expo'],
-  };
-};
+    presets: [ "babel-preset-expo" ],
+    plugins: [
+      [
+        "inline-dotenv",
+        {
+          path: path.resolve("env/.env")
+        }
+      ]
+    ]
+  }
+}

@@ -4,7 +4,19 @@ import { ProductsState } from "./slice"
 import { Product } from "../../models"
 
 
+export const initProductsPendingReducer: CaseReducer<ProductsState> = (state) => {
+  state.loading = true
+  state.error = false
+}
+
+export const initProductsRejectReducer: CaseReducer<ProductsState> = (state) => {
+  state.loading = false
+  state.error = true
+}
+
 export const initProductsReducer: CaseReducer<ProductsState, PayloadAction<Product[]>> = (state, action) => {
+  state.loading = false
+  state.error = false
   state.available = action.payload
   state.user = action.payload.filter(product => product.ownerId === 1)
 }

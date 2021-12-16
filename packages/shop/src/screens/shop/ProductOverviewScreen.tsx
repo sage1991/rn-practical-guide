@@ -1,5 +1,5 @@
-import React, { FC, useLayoutEffect } from "react"
-import { Button, FlatList, ListRenderItem } from "react-native"
+import React, { FC, useCallback, useEffect, useLayoutEffect } from "react"
+import { ActivityIndicator, Button, FlatList, ListRenderItem, StyleSheet, View } from "react-native"
 import { CompositeScreenProps } from "@react-navigation/native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { DrawerScreenProps } from "@react-navigation/drawer"
@@ -7,10 +7,10 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import { ProductNavigatorParams, ShopNavigatorParams } from "../../navigation"
 import { useDispatch, useSelector, Cart, Products } from "../../store"
+import { HeaderButton, Typography } from "../../components/ui"
 import { ProductItem } from "../../components/shop"
 import { Product } from "../../models"
 import { Colors } from "../../theme"
-import { HeaderButton } from "../../components/ui"
 
 
 type Props = CompositeScreenProps<
@@ -20,11 +20,17 @@ type Props = CompositeScreenProps<
 
 export const ProductOverviewScreen: FC<Props> = (props) => {
   const products = useSelector(state => state.products.available)
+  const loading = useSelector(state => state.products.loading)
+  const error = useSelector(state => state.products.error)
   const dispatch = useDispatch()
 
-  useLayoutEffect(() => {
-    dispatch(Products.init())
+  const initProducts = useCallback(() => dispatch(Products.init()), [])
 
+  useEffect(() => {
+    initProducts()
+  }, [ initProducts ])
+
+  useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: "All Products",
       headerLeft: headerProps => (
@@ -88,6 +94,27 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
     )
   }
 
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    )
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Typography>An Error occurred!</Typography>
+        <Button
+          title="Try again"
+          onPress={initProducts}
+          color={Colors.primary}
+        />
+      </View>
+    )
+  }
+
   return (
     <FlatList
       data={products}
@@ -95,3 +122,11 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
     />
   )
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})

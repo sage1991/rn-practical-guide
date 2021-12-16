@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect, useLayoutEffect } from "react"
-import { ActivityIndicator, Button, FlatList, ListRenderItem, StyleSheet, View } from "react-native"
+import React, { FC, useCallback, useEffect, useLayoutEffect, useState } from "react"
+import { ActivityIndicator, Button, FlatList, ListRenderItem, RefreshControl, StyleSheet, View } from "react-native"
 import { CompositeScreenProps } from "@react-navigation/native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { DrawerScreenProps } from "@react-navigation/drawer"
@@ -19,15 +19,21 @@ type Props = CompositeScreenProps<
 >
 
 export const ProductOverviewScreen: FC<Props> = (props) => {
+  const dispatch = useDispatch()
   const products = useSelector(state => state.products.available)
   const loading = useSelector(state => state.products.loading)
   const error = useSelector(state => state.products.error)
-  const dispatch = useDispatch()
+  const [ isRefreshing, setIsRefreshing ] = useState<boolean>(false)
 
-  const initProducts = useCallback(() => dispatch(Products.init()), [])
+  const initProducts = useCallback(() => {
+    setIsRefreshing(true)
+    dispatch(Products.init())
+      .finally(() => setIsRefreshing(false))
+  }, [])
 
   useEffect(() => {
-    initProducts()
+    props.navigation.addListener("focus", initProducts)
+    return () => props.navigation.removeListener("focus", initProducts)
   }, [ initProducts ])
 
   useLayoutEffect(() => {
@@ -94,7 +100,7 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
     )
   }
 
-  if (loading) {
+  if (products.length === 0 && loading) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
@@ -119,6 +125,12 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
     <FlatList
       data={products}
       renderItem={renderItem}
+      refreshControl={(
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={initProducts}
+        />
+      )}
     />
   )
 }

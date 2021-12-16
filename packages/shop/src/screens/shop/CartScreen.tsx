@@ -33,7 +33,7 @@ export const CartScreen: FC<Props> = () => {
     dispatch(Cart.clear())
   }
 
-  const removeItem = (id: number) => () => {
+  const removeItem = (id: string) => () => {
     dispatch(Cart.remove(id))
   }
 

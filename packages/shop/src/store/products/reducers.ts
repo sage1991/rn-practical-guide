@@ -4,7 +4,12 @@ import { ProductsState } from "./slice"
 import { Product } from "../../models"
 
 
-export const removeProductReducer: CaseReducer<ProductsState, PayloadAction<number>> = (state, action) => {
+export const initProductsReducer: CaseReducer<ProductsState, PayloadAction<Product[]>> = (state, action) => {
+  state.available = action.payload
+  state.user = action.payload.filter(product => product.ownerId === 1)
+}
+
+export const removeProductReducer: CaseReducer<ProductsState, PayloadAction<string>> = (state, action) => {
   state.user = state.user.filter(product => product.id !== action.payload)
 }
 

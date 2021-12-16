@@ -6,7 +6,7 @@ import { DrawerScreenProps } from "@react-navigation/drawer"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import { ProductNavigatorParams, ShopNavigatorParams } from "../../navigation"
-import { useDispatch, useSelector, Cart } from "../../store"
+import { useDispatch, useSelector, Cart, Products } from "../../store"
 import { ProductItem } from "../../components/shop"
 import { Product } from "../../models"
 import { Colors } from "../../theme"
@@ -23,6 +23,8 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
   const dispatch = useDispatch()
 
   useLayoutEffect(() => {
+    dispatch(Products.init())
+
     props.navigation.setOptions({
       headerTitle: "All Products",
       headerLeft: headerProps => (
@@ -52,7 +54,7 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
     })
   }, [])
 
-  const viewDetail = (id: number) => () => {
+  const viewDetail = (id: string) => () => {
     props.navigation.navigate("product-detail", { id })
   }
 

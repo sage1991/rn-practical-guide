@@ -50,15 +50,26 @@ export const EditProductScreen: FC<Props> = (props) => {
       return
     }
 
-    const __product: Product = {
-      id: isAdd ? Date.now() : product!.id,
-      ownerId: 1,
-      title: title.value,
-      price: +price.value,
-      imageUrl: imageUrl.value,
-      description: description.value
+    if (isAdd) {
+      dispatch(Products.create({
+        ownerId: 1,
+        title: title.value,
+        price: +price.value,
+        imageUrl: imageUrl.value,
+        description: description.value
+      }))
     }
-    dispatch(isAdd ? Products.create(__product) : Products.update(__product))
+
+    if (!isAdd) {
+      dispatch(Products.update({
+        id: product!.id,
+        ownerId: 1,
+        title: title.value,
+        price: +price.value,
+        imageUrl: imageUrl.value,
+        description: description.value
+      }))
+    }
   }
 
   useLayoutEffect(() => {

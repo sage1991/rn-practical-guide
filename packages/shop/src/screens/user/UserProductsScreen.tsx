@@ -52,11 +52,11 @@ export const UserProductsScreen: FC<Props> = (props) => {
     })
   }, [])
 
-  const viewEdit = (id: number) => () => {
+  const viewEdit = (id: string) => () => {
     props.navigation.navigate("edit", { id })
   }
 
-  const deleteItem = (id: number) => () => {
+  const deleteItem = (id: string) => () => {
     Alert.alert(
       "Are you sure?",
       "Do you really want to delete this item?",

@@ -24,7 +24,7 @@ export const addToCartReducer: CaseReducer<CartState, PayloadAction<Product>> = 
 }
 
 
-export const removeFromCartReducer: CaseReducer<CartState, PayloadAction<number>> = (state, action) => {
+export const removeFromCartReducer: CaseReducer<CartState, PayloadAction<string>> = (state, action) => {
   const item = state.items.find(item => item.id === action.payload)
   if (item) {
     state.amount = +(state.amount - item.price).toFixed(2)
@@ -40,7 +40,7 @@ export const removeFromCartReducer: CaseReducer<CartState, PayloadAction<number>
 }
 
 
-export const removeAllFromCartReducer: CaseReducer<CartState, PayloadAction<number>> = (state, action) => {
+export const removeAllFromCartReducer: CaseReducer<CartState, PayloadAction<string>> = (state, action) => {
   const item = state.items.find(item => item.id === action.payload)
   if (item) {
     state.items = state.items.filter(__item => __item !== item)

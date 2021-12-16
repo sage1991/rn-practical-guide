@@ -7,7 +7,7 @@ import { CartScreen, ProductDetailScreen, ProductOverviewScreen } from "../../sc
 
 export type ProductNavigatorParams = {
   overview: undefined
-  "product-detail": { id: number }
+  "product-detail": { id: string }
   cart: undefined
 }
 

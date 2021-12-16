@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 import { Product } from "../../models"
-import { products as productList } from "../../__mock__"
 import { Products } from "./actions"
-import { createProductReducer, removeProductReducer, updateProductReducer } from "./reducers"
+import { createProductReducer, initProductsReducer, removeProductReducer, updateProductReducer } from "./reducers"
 
 
 export interface ProductsState {
@@ -12,8 +11,8 @@ export interface ProductsState {
 }
 
 const INITIAL_STATE: ProductsState = {
-  available: productList,
-  user: productList.filter(product => product.ownerId === 1)
+  available: [],
+  user: []
 }
 
 const slice = createSlice({
@@ -22,8 +21,9 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(Products.init.fulfilled, initProductsReducer)
       .addCase(Products.remove, removeProductReducer)
-      .addCase(Products.create, createProductReducer)
+      .addCase(Products.create.fulfilled, createProductReducer)
       .addCase(Products.update, updateProductReducer)
   }
 })

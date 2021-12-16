@@ -7,7 +7,7 @@ import { Colors, Fonts } from "../../theme"
 
 export type AdminNavigatorParams = {
   admin: undefined
-  edit?: { id: number }
+  edit?: { id: string }
 }
 
 const Stack = createStackNavigator<AdminNavigatorParams>()

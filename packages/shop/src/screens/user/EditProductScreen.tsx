@@ -16,7 +16,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import { AdminNavigatorParams, ShopNavigatorParams } from "../../navigation"
 import { Products, useDispatch, useSelector } from "../../store"
 import { HeaderButton, Input } from "../../components/ui"
-import { Product } from "../../models"
 import { useInput } from "../../hooks"
 
 

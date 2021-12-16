@@ -25,16 +25,18 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
   const error = useSelector(state => state.products.error)
   const [ isRefreshing, setIsRefreshing ] = useState<boolean>(false)
 
-  const initProducts = useCallback(() => {
+  const fetchProducts = useCallback(() => dispatch(Products.init()), [])
+
+  const refresh = useCallback(() => {
     setIsRefreshing(true)
     dispatch(Products.init())
       .finally(() => setIsRefreshing(false))
   }, [])
 
   useEffect(() => {
-    props.navigation.addListener("focus", initProducts)
-    return () => props.navigation.removeListener("focus", initProducts)
-  }, [ initProducts ])
+    props.navigation.addListener("focus", fetchProducts)
+    return () => props.navigation.removeListener("focus", fetchProducts)
+  }, [ fetchProducts ])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -114,7 +116,7 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
         <Typography>An Error occurred!</Typography>
         <Button
           title="Try again"
-          onPress={initProducts}
+          onPress={fetchProducts}
           color={Colors.primary}
         />
       </View>
@@ -128,7 +130,7 @@ export const ProductOverviewScreen: FC<Props> = (props) => {
       refreshControl={(
         <RefreshControl
           refreshing={isRefreshing}
-          onRefresh={initProducts}
+          onRefresh={refresh}
         />
       )}
     />

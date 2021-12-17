@@ -1,8 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+import {
+  addToCartReducer,
+  clearCartReducer,
+  removeAllFromCartReducer,
+  removeFromCartReducer
+} from "./reducers"
 import { CartItem } from "../../models"
 import { Cart } from "./actions"
-import { addToCartReducer, clearCartReducer, removeAllFromCartReducer, removeFromCartReducer } from "./reducers"
 
 
 export interface CartState {

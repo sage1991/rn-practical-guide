@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 10
   },
   info: {
     flexDirection: "row",

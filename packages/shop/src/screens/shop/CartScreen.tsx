@@ -1,5 +1,5 @@
-import React, { FC } from "react"
-import { Button, FlatList, ListRenderItem, StyleSheet, View } from "react-native"
+import React, { FC, useState } from "react"
+import { ActivityIndicator, Button, FlatList, ListRenderItem, StyleSheet, View } from "react-native"
 import { CompositeScreenProps } from "@react-navigation/native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { DrawerScreenProps } from "@react-navigation/drawer"
@@ -8,9 +8,9 @@ import { CartItem } from "../../components/shop"
 import { Card, Typography } from "../../components/ui"
 import { CartItem as CartItemModel } from "../../models"
 import { Cart, useDispatch, useSelector } from "../../store"
-import { Colors } from "../../theme"
 import { ProductNavigatorParams, ShopNavigatorParams } from "../../navigation"
 import { Orders } from "../../store/orders"
+import { Colors } from "../../theme"
 
 
 type Props = CompositeScreenProps<
@@ -18,19 +18,28 @@ type Props = CompositeScreenProps<
   DrawerScreenProps<ShopNavigatorParams>
 >
 
-export const CartScreen: FC<Props> = () => {
+export const CartScreen: FC<Props> = (props) => {
   const items = useSelector(state => state.cart.items)
   const amount = useSelector(state => state.cart.amount)
   const dispatch = useDispatch()
 
-  const order = () => {
-    dispatch(Orders.add({
-      id: Date.now(),
-      amount: amount,
-      items: items,
-      date: new Date().toISOString()
-    }))
-    dispatch(Cart.clear())
+  const [ loading, setLoading ] = useState<boolean>(false)
+
+  const order = async () => {
+    setLoading(true)
+    try {
+      await dispatch(Orders.add({
+        amount: amount,
+        items: items,
+        date: new Date().toISOString()
+      }))
+      dispatch(Cart.clear())
+      props.navigation.navigate("orders-stack", {
+        screen: "orders"
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const removeItem = (id: string) => () => {
@@ -55,11 +64,17 @@ export const CartScreen: FC<Props> = () => {
         <Typography variant="bold" style={styles.summaryText}>
           Total: <Typography style={styles.amount}>${ amount.toFixed(2) }</Typography>
         </Typography>
-        <Button
-          title="Order Now"
-          onPress={order}
-          color={Colors.accent}
-        />
+        {
+          loading
+            ? <ActivityIndicator size="small" color={Colors.primary} />
+            : (
+              <Button
+                title="Order Now"
+                onPress={order}
+                color={Colors.accent}
+              />
+            )
+        }
       </Card>
       <FlatList
         style={styles.list}

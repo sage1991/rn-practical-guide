@@ -8,7 +8,7 @@ module.exports = function (api) {
       [
         "inline-dotenv",
         {
-          path: path.resolve("env/.env")
+          path: path.resolve("../../env/.env")
         }
       ]
     ]

@@ -17,6 +17,7 @@ import { AdminNavigatorParams, ShopNavigatorParams } from "../../navigation"
 import { Products, useDispatch, useSelector } from "../../store"
 import { HeaderButton, Input } from "../../components/ui"
 import { useInput } from "../../hooks"
+import { unwrapResult } from "@reduxjs/toolkit"
 
 
 type Props = CompositeScreenProps<
@@ -39,7 +40,7 @@ export const EditProductScreen: FC<Props> = (props) => {
   const description = useInput(product?.description, isNotEmpty)
   const submittable = title.valid && imageUrl.valid && price.valid && description.valid
 
-  const submit = () => {
+  const submit = async () => {
     if (!submittable) {
       Alert.alert(
         "Wrong input!",
@@ -49,26 +50,38 @@ export const EditProductScreen: FC<Props> = (props) => {
       return
     }
 
-    if (isAdd) {
-      dispatch(Products.create({
-        ownerId: 1,
-        title: title.value,
-        price: +price.value,
-        imageUrl: imageUrl.value,
-        description: description.value
-      }))
+    try {
+      if (isAdd) {
+        await createProducts()
+      }
+      if (!isAdd) {
+        await updateProduct()
+      }
+      props.navigation.pop()
+    } catch (e) {
+      Alert.alert("An error occurred!", e.message)
     }
+  }
 
-    if (!isAdd) {
-      dispatch(Products.update({
-        id: product!.id,
-        ownerId: 1,
-        title: title.value,
-        price: +price.value,
-        imageUrl: imageUrl.value,
-        description: description.value
-      }))
-    }
+  const createProducts = () => {
+    return dispatch(Products.create({
+      ownerId: 1,
+      title: title.value,
+      price: +price.value,
+      imageUrl: imageUrl.value,
+      description: description.value
+    })).then(unwrapResult)
+  }
+
+  const updateProduct = () => {
+    return dispatch(Products.update({
+      id: product!.id,
+      ownerId: 1,
+      title: title.value,
+      price: +price.value,
+      imageUrl: imageUrl.value,
+      description: description.value
+    })).then(unwrapResult)
   }
 
   useLayoutEffect(() => {
@@ -116,6 +129,8 @@ export const EditProductScreen: FC<Props> = (props) => {
               errorText="Please enter a valid image url!"
               keyboardType="default"
               returnKeyType="next"
+              autoCapitalize="none"
+              autoCorrect={false}
             />
             {
               isAdd &&

@@ -35,9 +35,9 @@ const slice = createSlice({
       .addCase(Products.init.pending, initProductsPendingReducer)
       .addCase(Products.init.rejected, initProductsRejectReducer)
       .addCase(Products.init.fulfilled, initProductsReducer)
-      .addCase(Products.remove, removeProductReducer)
+      .addCase(Products.remove.fulfilled, removeProductReducer)
       .addCase(Products.create.fulfilled, createProductReducer)
-      .addCase(Products.update, updateProductReducer)
+      .addCase(Products.update.fulfilled, updateProductReducer)
   }
 })
 

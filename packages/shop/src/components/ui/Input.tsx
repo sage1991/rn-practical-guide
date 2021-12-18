@@ -18,6 +18,7 @@ interface Props {
   multiline?: boolean
   autoCorrect?: boolean
   autoFocus?: boolean
+  secureTextEntry?: boolean
 }
 
 export const Input: FC<Props> = (props) => {
@@ -40,6 +41,7 @@ export const Input: FC<Props> = (props) => {
         multiline={props.multiline}
         autoCorrect={props.autoCorrect}
         autoFocus={props.autoFocus}
+        secureTextEntry={props.secureTextEntry}
       />
       { props.error && <Typography style={styles.error}>{ props.errorText }</Typography> }
     </View>

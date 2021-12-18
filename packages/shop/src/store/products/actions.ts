@@ -3,11 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Product } from "../../models"
 import { Const } from "../../common"
 import { NetworkError } from "../../errors"
+import { RootState } from "../store"
 
 
 export namespace Products {
-  export const init = createAsyncThunk("products/fetch", async () => {
-    const response = await fetch(`${Const.DATABASE_URL}/products.json`)
+  export const init = createAsyncThunk<Product[], void, { state: RootState }>("products/fetch", async (_, thunkAPI) => {
+    const state = thunkAPI.getState()
+    const response = await fetch(`${Const.DATABASE_URL}/products.json?auth=${state.auth.token?.access}`)
     if (!response.ok) {
       throw new NetworkError(`${response.status}`, response.statusText)
     }
@@ -19,8 +21,9 @@ export namespace Products {
     )
   })
 
-  export const create = createAsyncThunk("products/create", async (payload: Omit<Product, "id">) => {
-    const response = await fetch(`${Const.DATABASE_URL}/products.json`, {
+  export const create = createAsyncThunk<Product, Omit<Product, "id">, { state: RootState }>("products/create", async (payload, thunkAPI) => {
+    const state = thunkAPI.getState()
+    const response = await fetch(`${Const.DATABASE_URL}/products.json?auth=${state.auth.token?.access}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -29,11 +32,12 @@ export namespace Products {
       throw new NetworkError(`${response.status}`, response.statusText)
     }
     const body = await response.json()
-    return { ...payload, id: body.name } as Product
+    return { ...payload, id: body.name }
   })
 
-  export const update = createAsyncThunk("products/update", async ({ id, ...product }: Product) => {
-    const response = await fetch(`${Const.DATABASE_URL}/products/${id}.json`, {
+  export const update = createAsyncThunk<Product, Product, { state: RootState }>("products/update", async ({ id, ...product }, thunkAPI) => {
+    const state = thunkAPI.getState()
+    const response = await fetch(`${Const.DATABASE_URL}/products/${id}.json?auth=${state.auth.token?.access}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product)
@@ -44,8 +48,9 @@ export namespace Products {
     return { id, ...product }
   })
 
-  export const remove = createAsyncThunk("products/remove", async (id: string) => {
-    const response = await fetch(`${Const.DATABASE_URL}/products/${id}.json`, {
+  export const remove = createAsyncThunk<string, string, { state: RootState }>("products/remove", async (id, thunkAPI) => {
+    const state = thunkAPI.getState()
+    const response = await fetch(`${Const.DATABASE_URL}/products/${id}.json?auth=${state.auth.token?.access}`, {
       method: "DELETE"
     })
     if (!response.ok) {

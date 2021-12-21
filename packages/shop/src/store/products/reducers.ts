@@ -14,11 +14,11 @@ export const initProductsRejectReducer: CaseReducer<ProductsState> = (state) => 
   state.error = true
 }
 
-export const initProductsReducer: CaseReducer<ProductsState, PayloadAction<Product[]>> = (state, action) => {
+export const initProductsReducer: CaseReducer<ProductsState, PayloadAction<{ products: Product[], userProducts: Product[] }>> = (state, action) => {
   state.loading = false
   state.error = false
-  state.available = action.payload
-  state.user = action.payload.filter(product => product.ownerId === 1)
+  state.available = action.payload.products
+  state.user = action.payload.userProducts
 }
 
 export const removeProductReducer: CaseReducer<ProductsState, PayloadAction<string>> = (state, action) => {

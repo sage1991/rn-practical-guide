@@ -9,7 +9,8 @@ export const initOrderPendingReducer: CaseReducer<OrderState> = (state) => {
   state.error = false
 }
 
-export const initOrderRejectedReducer: CaseReducer<OrderState> = (state) => {
+export const initOrderRejectedReducer: CaseReducer<OrderState> = (state, action) => {
+  console.error(action.error)
   state.loading = false
   state.error = true
 }

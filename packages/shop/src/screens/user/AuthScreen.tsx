@@ -18,7 +18,7 @@ import { Card, Input } from "../../components/ui"
 import { RootNavigatorParams } from "../../navigation"
 import { useInput } from "../../hooks"
 import { Colors } from "../../theme"
-import { Authentication, useSelector } from "../../store"
+import { Auth, useSelector } from "../../store"
 import { useDispatch } from "../../store"
 
 
@@ -55,7 +55,7 @@ export const AuthScreen: FC<Props> = (props) => {
   }
 
   const signIn = () => dispatch(
-    Authentication.signIn({
+    Auth.signIn({
       email: email.value,
       password: password.value,
       returnSecureToken: true
@@ -63,7 +63,7 @@ export const AuthScreen: FC<Props> = (props) => {
   ).then(unwrapResult)
 
   const signUp = () => dispatch(
-    Authentication.signUp({
+    Auth.signUp({
       email: email.value,
       password: password.value,
       returnSecureToken: true

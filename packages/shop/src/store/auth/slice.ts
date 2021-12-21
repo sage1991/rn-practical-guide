@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { Authentication } from "./actions"
-import { authenticationPendingReducer, authenticationRejectedReducer, authenticationReducer } from "./reducers"
+
+import { Auth } from "./actions"
+import {
+  authenticationPendingReducer,
+  authenticationRejectedReducer,
+  authenticationReducer,
+  initAuthReducer,
+  logoutReducer
+} from "./reducers"
 import { User } from "../../models/user"
 import { Token } from "../../models/token"
 
@@ -23,12 +30,14 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(Authentication.signUp.pending, authenticationPendingReducer)
-      .addCase(Authentication.signUp.rejected, authenticationRejectedReducer)
-      .addCase(Authentication.signUp.fulfilled, authenticationReducer)
-      .addCase(Authentication.signIn.pending, authenticationPendingReducer)
-      .addCase(Authentication.signIn.rejected, authenticationRejectedReducer)
-      .addCase(Authentication.signIn.fulfilled, authenticationReducer)
+      .addCase(Auth.authenticate.fulfilled, initAuthReducer)
+      .addCase(Auth.signUp.pending, authenticationPendingReducer)
+      .addCase(Auth.signUp.rejected, authenticationRejectedReducer)
+      .addCase(Auth.signUp.fulfilled, authenticationReducer)
+      .addCase(Auth.signIn.pending, authenticationPendingReducer)
+      .addCase(Auth.signIn.rejected, authenticationRejectedReducer)
+      .addCase(Auth.signIn.fulfilled, authenticationReducer)
+      .addCase(Auth.logout, logoutReducer)
   }
 })
 

@@ -1,6 +1,6 @@
 export interface Product {
   id: string
-  ownerId: number
+  ownerId: string
   title: string
   imageUrl: string
   description: string

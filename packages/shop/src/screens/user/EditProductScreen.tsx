@@ -65,7 +65,6 @@ export const EditProductScreen: FC<Props> = (props) => {
 
   const createProducts = () => {
     return dispatch(Products.create({
-      ownerId: 1,
       title: title.value,
       price: +price.value,
       imageUrl: imageUrl.value,
@@ -75,8 +74,7 @@ export const EditProductScreen: FC<Props> = (props) => {
 
   const updateProduct = () => {
     return dispatch(Products.update({
-      id: product!.id,
-      ownerId: 1,
+      ...product!,
       title: title.value,
       price: +price.value,
       imageUrl: imageUrl.value,

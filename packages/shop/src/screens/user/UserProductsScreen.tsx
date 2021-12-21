@@ -1,5 +1,5 @@
 import React, { FC, useLayoutEffect } from "react"
-import { Button, FlatList, ListRenderItem, Alert } from "react-native"
+import { Button, FlatList, ListRenderItem, Alert, View } from "react-native"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import { CompositeScreenProps } from "@react-navigation/native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -9,7 +9,7 @@ import { AdminNavigatorParams, ShopNavigatorParams } from "../../navigation"
 import { Cart, Products, useDispatch, useSelector } from "../../store"
 import { Product } from "../../models"
 import { ProductItem } from "../../components/shop"
-import { HeaderButton } from "../../components/ui"
+import { HeaderButton, Typography } from "../../components/ui"
 import { Colors } from "../../theme"
 
 
@@ -97,6 +97,14 @@ export const UserProductsScreen: FC<Props> = (props) => {
           </>
         )}
       />
+    )
+  }
+
+  if (products.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Typography>No Products found. start creating some!</Typography>
+      </View>
     )
   }
 

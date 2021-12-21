@@ -9,14 +9,14 @@ import { RootState } from "../store"
 export namespace Orders {
   export const init = createAsyncThunk<Order[], void, { state: RootState }>("orders/init", async (_, thunkAPI) => {
     const state = thunkAPI.getState()
-    const response = await fetch(`${Const.DATABASE_URL}/orders/u1.json?auth=${state.auth.token?.access}`)
+    const response = await fetch(`${Const.DATABASE_URL}/orders/${state.auth.user?.id}.json?auth=${state.auth.token?.access}`)
     if (!response.ok) {
       throw new NetworkError(`${response.status}`, response.statusText)
     }
     const body = await response.json()
     return (
       Object
-        .entries(body)
+        .entries(body ?? {})
         .map<Order>(([ id, order ]) => ({ id, ...order as Omit<Order, "id"> }))
     )
   })

@@ -38,7 +38,7 @@ export const OrdersScreen: FC<Props> = (props) => {
   const fetchOrders = useCallback(() => dispatch(Orders.init()), [])
   const refresh = useCallback(() => {
     setIsRefreshing(true)
-    dispatch(Orders.init())
+    return dispatch(Orders.init())
       .finally(() => setIsRefreshing(false))
   }, [])
 
@@ -101,6 +101,14 @@ export const OrdersScreen: FC<Props> = (props) => {
           onPress={fetchOrders}
           color={Colors.primary}
         />
+      </View>
+    )
+  }
+
+  if (orders.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Typography>No Products found. start creating some!</Typography>
       </View>
     )
   }

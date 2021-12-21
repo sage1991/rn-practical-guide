@@ -1,12 +1,15 @@
 import React, { FC } from "react"
 import { NavigationContainer, NavigatorScreenParams } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
 
 import { ShopNavigator, ShopNavigatorParams } from "./shop"
-import { createStackNavigator } from "@react-navigation/stack"
-import { AuthScreen } from "../screens/user/AuthScreen"
+import { StartupScreen } from "../screens/intro"
+import { AuthScreen } from "../screens/user"
 import { useSelector } from "../store"
 
+
 export type RootNavigatorParams = {
+  intro: undefined
   auth: undefined
   shop: NavigatorScreenParams<ShopNavigatorParams>
 }
@@ -21,13 +24,22 @@ export const RootNavigator: FC = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {
           !token &&
-          <Stack.Screen
-            name="auth"
-            component={AuthScreen}
-            options={{
-              headerTitle: "Authenticate"
-            }}
-          />
+          <>
+            <Stack.Screen
+              name="intro"
+              component={StartupScreen}
+              options={{
+                headerTitle: "Authenticate"
+              }}
+            />
+            <Stack.Screen
+              name="auth"
+              component={AuthScreen}
+              options={{
+                headerTitle: "Authenticate"
+              }}
+            />
+          </>
         }
         {
           !!token &&

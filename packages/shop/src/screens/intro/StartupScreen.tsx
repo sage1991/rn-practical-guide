@@ -1,12 +1,11 @@
 import React, { FC, useEffect } from "react"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
+import { StackScreenProps } from "@react-navigation/stack"
 import { unwrapResult } from "@reduxjs/toolkit"
 
 import { Colors } from "../../theme"
-import { StackScreenProps } from "@react-navigation/stack"
 import { RootNavigatorParams } from "../../navigation"
 import { Auth, useDispatch } from "../../store"
-
 
 
 type Props = StackScreenProps<RootNavigatorParams, "intro">

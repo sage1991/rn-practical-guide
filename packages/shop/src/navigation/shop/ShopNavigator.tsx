@@ -2,7 +2,7 @@ import React, { FC, useCallback } from "react"
 import { createDrawerNavigator, DrawerItem, DrawerItemList } from "@react-navigation/drawer"
 import { NavigatorScreenParams } from "@react-navigation/native"
 import { Ionicons } from "@expo/vector-icons"
-import { SafeAreaView, View } from "react-native"
+import { SafeAreaView } from "react-native"
 
 import { ProductNavigator, ProductNavigatorParams } from "./ProductNavigator"
 import { OrdersNavigator, OrdersNavigatorParams } from "./OrdersNavigator"
@@ -21,7 +21,6 @@ const Drawer = createDrawerNavigator<ShopNavigatorParams>()
 
 export const ShopNavigator: FC = () => {
   const dispatch = useDispatch()
-
   const logout = useCallback(() => dispatch(Auth.logout()), [])
 
   return (

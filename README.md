@@ -88,3 +88,43 @@ module.exports = createMetroConfiguration(__dirname)
 ```
 
 5. `yarn install` 실행
+
+
+
+
+## babel을 이용한 환경 변수 세팅
+
+**준비물:** `babel-plugin-inline-dotenv`
+
+-----------------------------------------------------------------------
+
+expo document 에서 소개하는 [React Native 앱에 환경변수를 설정 하는 방법](https://docs.expo.dev/guides/environment-variables/) 은 
+3가지가 있는데 그 중 dotenv file 을 이용한 방법을 사용
+
+1. `babel-plugin-inline-dotenv` 설치
+```shell
+$ yarn add babel-plugin-inline-dotenv -D
+```
+
+2. babel.config.js 에서 .env 파일의 경로를 지정
+```javascript
+const path = require("path")
+
+module.exports = function (api) {
+  api.cache(true)
+  return {
+    presets: [ "babel-preset-expo" ],
+    plugins: [
+      [
+        "inline-dotenv",
+        {
+          path: path.resolve("path/to/.env")
+        }
+      ]
+    ]
+  }
+}
+```
+
+3. 필요 할 경우 상황에 따라 다른 .env 파일을 로드하도록 설정
+

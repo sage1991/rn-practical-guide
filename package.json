@@ -1,9 +1,12 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [ "packages/*" ],
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "1.0.0",
   "devDependencies": {
+    "expo-cli": "4.13.0",
     "lerna": "^4.0.0"
   }
 }

@@ -52,19 +52,13 @@ drwxr-xr-x     3 harry  staff      96 Nov 13 15:48 packages
 
 ### monorepo 에 expo package 추가
 
-1. monorepo 외부에 react-native project 생성
+1. packages 폴더 내부에 react-native project 생성
 ```shell
-# out side of monorepo directory
+# inside of packages directory
 $ expo init <project-name>
 ```
 
-2. monorepo 내부로 package import
-```shell
-$ cd /path/to/monorepo
-$ lerna import /path/to/expo/project
-```
-
-3. expo package 의 package.json 수정 (name 및 main 수정)
+2. expo package 의 package.json 수정 (name 및 main 수정)
 ```json
 {
   "name": "<project-name>",
@@ -73,10 +67,8 @@ $ lerna import /path/to/expo/project
 }
 ```
 
-4. expo-yarn-workspaces 설치 및 package.json 수정
+3. expo-yarn-workspaces 설치 및 package.json 수정
 ```shell
-# inside of monorepo directory
-$ cd packages/<project-name>
 $ yarn add expo-yarn-workspaces -D
 ```
 아래를 script에 추가
@@ -88,10 +80,10 @@ $ yarn add expo-yarn-workspaces -D
 }
 ```
 
-5. metro.config.js 파일 생성
+4. metro.config.js 파일 생성
 ```js
 const { createMetroConfiguration } = require("expo-yarn-workspaces")
 module.exports = createMetroConfiguration(__dirname)
 ```
 
-6. `yarn install` 실행
+5. `yarn install` 실행

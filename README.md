@@ -79,6 +79,7 @@ $ yarn add expo-yarn-workspaces -D
   }
 }
 ```
+`expo-yarn-workspaces`에 대한 자세한 정보는 [여기](https://github.com/expo/expo/tree/master/packages/expo-yarn-workspaces) 를 참고
 
 4. metro.config.js 파일 생성
 ```js

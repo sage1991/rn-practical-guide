@@ -1,6 +1,9 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "expo:init": "expo init"
+  },
   "workspaces": [
     "packages/*"
   ],

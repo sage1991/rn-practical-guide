@@ -1,18 +1,20 @@
 import React, { FC } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
+import { useNavigation } from "@react-navigation/native"
+import { NavigationProp } from "@react-navigation/core/src/types"
 
 import { MapScreen, NewPlaceScreen, PlaceDetailScreen, PlacesListScreen } from "../../screens"
 import { HeaderButton } from "../../components/ui"
 import { Colors } from "../../theme/colors"
-import { useNavigation } from "@react-navigation/native"
-import { NavigationProp } from "@react-navigation/core/src/types"
-import { Ionicons } from "@expo/vector-icons"
 
 
 export type PlacesNavigatorParams = {
   places: undefined
-  "places-detail": undefined
+  "places-detail": {
+    title: string
+    id: string
+  }
   "new-place": undefined
   map: undefined
 }
@@ -50,7 +52,13 @@ export const PlacesNavigator: FC = () => {
           )
         }}
       />
-      <Stack.Screen name="places-detail" component={PlaceDetailScreen} />
+      <Stack.Screen
+        name="places-detail"
+        component={PlaceDetailScreen}
+        options={props => ({
+          headerTitle: props.route.params.title
+        })}
+      />
       <Stack.Screen
         name="new-place"
         component={NewPlaceScreen}

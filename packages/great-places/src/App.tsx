@@ -4,18 +4,20 @@ import React, { FC } from "react"
 import { StatusBar } from "expo-status-bar"
 import { registerRootComponent } from "expo"
 import { enableScreens } from "react-native-screens"
+import { Provider } from "react-redux"
 
 import { RootNavigator } from "./navigation"
+import { store } from "./store"
 
 
 enableScreens()
 
 const App: FC = () => {
   return (
-    <>
+    <Provider store={store}>
       <StatusBar />
       <RootNavigator />
-    </>
+    </Provider>
   )
 }
 

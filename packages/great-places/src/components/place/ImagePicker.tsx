@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Alert, Button, Image, Linking, NativeModules, Platform, StyleSheet, Text, View } from "react-native"
 import { launchCameraAsync, requestCameraPermissionsAsync } from "expo-image-picker"
 
@@ -6,6 +6,8 @@ import { Colors } from "../../theme/colors"
 
 
 export const ImagePicker: FC = () => {
+  const [ image, setImage ] = useState<string>()
+
   const openAppSetting = () => {
     if (Platform.OS === "ios") {
       Linking.openURL("app-settings:")
@@ -16,10 +18,10 @@ export const ImagePicker: FC = () => {
   }
 
   const openCamera = async () => {
-    const result = await requestCameraPermissionsAsync()
+    const permission = await requestCameraPermissionsAsync()
 
     try {
-      if (!result.granted) {
+      if (!permission.granted) {
         Alert.alert(
           "Insufficient permissions!",
           "You need to grant camera permission to use this app",
@@ -31,7 +33,14 @@ export const ImagePicker: FC = () => {
         return
       }
 
-      await launchCameraAsync()
+      const image = await launchCameraAsync({
+        allowsEditing: true,
+        aspect: [ 16, 9 ],
+        quality: 0.5
+      })
+      if (!image.cancelled) {
+        setImage(image.uri)
+      }
     } catch (e) {
 
     }
@@ -40,8 +49,11 @@ export const ImagePicker: FC = () => {
   return (
     <View style={styles.root}>
       <View style={styles.preview}>
-        <Text>No image picked yet.</Text>
-        <Image style={styles.image} source={{ uri: "" }} />
+        {
+          image
+            ? <Image style={styles.image} source={{ uri: image }} />
+            : <Text>No image picked yet.</Text>
+        }
       </View>
       <Button title="Tack Image" color={Colors.primary} onPress={openCamera} />
     </View>

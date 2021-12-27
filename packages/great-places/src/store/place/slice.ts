@@ -19,7 +19,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(PlaceAction.add, addPlace)
+      .addCase(PlaceAction.add.fulfilled, addPlace)
   }
 })
 

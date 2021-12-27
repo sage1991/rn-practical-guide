@@ -24,7 +24,7 @@ export const PlacesListScreen: FC<Props> = (props) => {
     <PlaceItem
       title={item.title}
       address=""
-      image=""
+      image={item.image}
       onSelect={onSelect.bind(null, item)}
     />
   )

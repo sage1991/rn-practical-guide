@@ -1,12 +1,16 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import { Alert, Button, Image, Linking, NativeModules, Platform, StyleSheet, Text, View } from "react-native"
 import { launchCameraAsync, requestCameraPermissionsAsync } from "expo-image-picker"
 
 import { Colors } from "../../theme/colors"
 
 
-export const ImagePicker: FC = () => {
-  const [ image, setImage ] = useState<string>()
+interface Props {
+  image: string
+  onImageTaken: (image: string) => void
+}
+
+export const ImagePicker: FC<Props> = (props) => {
 
   const openAppSetting = () => {
     if (Platform.OS === "ios") {
@@ -39,7 +43,7 @@ export const ImagePicker: FC = () => {
         quality: 0.5
       })
       if (!image.cancelled) {
-        setImage(image.uri)
+        props.onImageTaken && props.onImageTaken(image.uri)
       }
     } catch (e) {
 
@@ -50,8 +54,8 @@ export const ImagePicker: FC = () => {
     <View style={styles.root}>
       <View style={styles.preview}>
         {
-          image
-            ? <Image style={styles.image} source={{ uri: image }} />
+          props.image
+            ? <Image style={styles.image} source={{ uri: props.image }} />
             : <Text>No image picked yet.</Text>
         }
       </View>
@@ -62,7 +66,8 @@ export const ImagePicker: FC = () => {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 15
   },
   preview: {
     width: "100%",

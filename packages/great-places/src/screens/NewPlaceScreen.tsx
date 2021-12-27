@@ -12,12 +12,15 @@ type Props = StackScreenProps<PlacesNavigatorParams, "new-place">
 
 export const NewPlaceScreen: FC<Props> = (props) => {
   const [ title, setTitle ] = useState<string>("")
+  const [ image, setImage ] = useState<string>("")
   const dispatch = useDispatch()
 
   const savePlace = () => {
-    dispatch(PlaceAction.add(title))
+    dispatch(PlaceAction.add({ title, image }))
     props.navigation.goBack()
   }
+
+  const onImageTaken = (image: string) => setImage(image)
 
   return (
     <ScrollView>
@@ -30,7 +33,10 @@ export const NewPlaceScreen: FC<Props> = (props) => {
           value={title}
           onChangeText={setTitle}
         />
-        <ImagePicker />
+        <ImagePicker
+          image={image}
+          onImageTaken={onImageTaken}
+        />
         <Button
           title="Save Place"
           color={Colors.primary}

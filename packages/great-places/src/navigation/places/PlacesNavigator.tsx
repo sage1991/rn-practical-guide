@@ -13,7 +13,7 @@ export type PlacesNavigatorParams = {
   places: undefined
   "places-detail": {
     title: string
-    id: string
+    id: number
   }
   "new-place": undefined
   map: undefined

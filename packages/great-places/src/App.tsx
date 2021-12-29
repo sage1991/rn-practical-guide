@@ -8,9 +8,15 @@ import { Provider } from "react-redux"
 
 import { RootNavigator } from "./navigation"
 import { store } from "./store"
+import { init } from "./repository"
 
 
 enableScreens()
+
+init()
+  .then(() => console.log("Initialize DB..."))
+  .catch(e => console.error(e))
+
 
 const App: FC = () => {
   return (

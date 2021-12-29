@@ -4,9 +4,10 @@ import { PlaceState } from "./slice"
 import { Place } from "../../model/Place"
 
 
-export const addPlace: CaseReducer<PlaceState, PayloadAction<Omit<Place, "id">>> = (state, action) => {
-  state.places.push({
-    ...action.payload,
-    id: `${Date.now()}`
-  })
+export const addPlace: CaseReducer<PlaceState, PayloadAction<Place>> = (state, action) => {
+  state.places.push(action.payload)
+}
+
+export const initPlaces: CaseReducer<PlaceState, PayloadAction<Place[]>> = (state, action) => {
+  state.places = action.payload
 }

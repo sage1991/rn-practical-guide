@@ -6,6 +6,7 @@ import { Colors } from "../theme/colors"
 import { PlaceAction, useDispatch } from "../store"
 import { PlacesNavigatorParams } from "../navigation"
 import { ImagePicker } from "../components/place"
+import { LocationPicker } from "../components/place/LocationPicker"
 
 
 type Props = StackScreenProps<PlacesNavigatorParams, "new-place">
@@ -37,6 +38,7 @@ export const NewPlaceScreen: FC<Props> = (props) => {
           image={image}
           onImageTaken={onImageTaken}
         />
+        <LocationPicker />
         <Button
           title="Save Place"
           color={Colors.primary}

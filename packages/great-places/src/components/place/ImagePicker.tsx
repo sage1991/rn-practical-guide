@@ -1,5 +1,15 @@
 import React, { FC } from "react"
-import { Alert, Button, Image, Linking, NativeModules, Platform, StyleSheet, Text, View } from "react-native"
+import {
+  Alert,
+  Button,
+  Image,
+  Linking,
+  NativeModules,
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from "react-native"
 import { launchCameraAsync, requestCameraPermissionsAsync } from "expo-image-picker"
 
 import { Colors } from "../../theme/colors"
@@ -11,7 +21,6 @@ interface Props {
 }
 
 export const ImagePicker: FC<Props> = (props) => {
-
   const openAppSetting = () => {
     if (Platform.OS === "ios") {
       Linking.openURL("app-settings:")
@@ -66,7 +75,6 @@ export const ImagePicker: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: "center",
     marginBottom: 15
   },
   preview: {

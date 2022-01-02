@@ -42,6 +42,7 @@ export const LocationPicker: FC = (props) => {
   return (
     <View style={styles.root}>
       <MapPreview
+        style={styles.preview}
         location={location}
         fallback={(
           isFetching
@@ -61,5 +62,12 @@ export const LocationPicker: FC = (props) => {
 const styles = StyleSheet.create({
   root: {
     marginBottom: 15
-  }
+  },
+  preview: {
+    marginBottom: 10,
+    width: "100%",
+    height: 150,
+    borderColor: "#cccccc",
+    borderWidth: 1,
+  },
 })

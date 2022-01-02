@@ -18,4 +18,8 @@ export namespace PlaceAction {
     const result = await Places.fetchAll()
     return result.rows._array
   })
+
+  export const removeAll = createAsyncThunk<void>("place/removeAll", async () => {
+    await Places.truncate()
+  })
 }

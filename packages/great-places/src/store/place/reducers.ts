@@ -11,3 +11,7 @@ export const addPlace: CaseReducer<PlaceState, PayloadAction<Place>> = (state, a
 export const initPlaces: CaseReducer<PlaceState, PayloadAction<Place[]>> = (state, action) => {
   state.places = action.payload
 }
+
+export const removeAllPlaces: CaseReducer<PlaceState> = (state) => {
+  state.places = []
+}

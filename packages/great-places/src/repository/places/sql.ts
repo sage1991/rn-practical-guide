@@ -5,4 +5,4 @@ export const INSERT_INTO_PLACE = `
 
 export const SELECT_ALL_FROM_PLACE = "select * from places"
 
-export const DELETE_ALL_FROM_PLACE = "delete from place"
+export const DELETE_ALL_FROM_PLACE = "delete from places"

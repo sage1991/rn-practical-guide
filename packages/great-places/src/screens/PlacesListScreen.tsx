@@ -18,7 +18,6 @@ export const PlacesListScreen: FC<Props> = (props) => {
     dispatch(PlaceAction.init())
   }, [])
 
-  console.log(places)
   const onSelect = (place: Place) => {
     props.navigation.navigate("places-detail", {
       id: place.id,
@@ -29,7 +28,7 @@ export const PlacesListScreen: FC<Props> = (props) => {
   const renderItem: ListRenderItem<Place> = ({ item }) => (
     <PlaceItem
       title={item.title}
-      address=""
+      address={item.address}
       image={item.image}
       onSelect={onSelect.bind(null, item)}
     />

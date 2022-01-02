@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 import { PlaceAction } from "./actions"
-import { addPlace, initPlaces } from "./reducers"
+import { addPlace, initPlaces, removeAllPlaces } from "./reducers"
 import { Place } from "../../model/Place"
 
 
@@ -21,6 +21,7 @@ const slice = createSlice({
     builder
       .addCase(PlaceAction.init.fulfilled, initPlaces)
       .addCase(PlaceAction.add.fulfilled, addPlace)
+      .addCase(PlaceAction.removeAll.fulfilled, removeAllPlaces)
   }
 })
 

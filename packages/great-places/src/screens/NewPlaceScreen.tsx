@@ -16,7 +16,7 @@ export const NewPlaceScreen: FC<Props> = (props) => {
   const dispatch = useDispatch()
 
   const savePlace = () => {
-    dispatch(PlaceAction.add({ title, image }))
+    dispatch(PlaceAction.add({ title, image, address: "", lat: 0, lng: 0 }))
     props.navigation.goBack()
   }
 

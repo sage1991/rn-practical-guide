@@ -1,4 +1,4 @@
-import { openDatabase, SQLResultSet, SQLTransaction } from "expo-sqlite"
+import { openDatabase, SQLResultSet } from "expo-sqlite"
 
 import { CREATE_TABLE_PLACE } from "./tables"
 

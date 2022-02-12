@@ -1,20 +1,35 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import {
   View,
   Button,
   Text,
   Alert,
-  StyleSheet, ActivityIndicator
+  StyleSheet,
+  ActivityIndicator
 } from "react-native"
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from "expo-location"
 
 import { Colors } from "../../theme/colors"
 import { MapPreview } from "./MapPreview"
+import { Location } from "../../model/Location"
 
 
-export const LocationPicker: FC = (props) => {
+interface Props {
+  location?: Location
+  pickLocationOnMap: () => void
+  selectLocation: (location: Location) => void
+}
+
+export const LocationPicker: FC<Props> = (props) => {
   const [ isFetching, setIsFetching ] = useState<boolean>(false)
-  const [ location, setLocation ] = useState<{ lat: number, lng: number }>()
+  const [ location, setLocation ] = useState<Location>()
+
+  useEffect(() => {
+    if (props.location) {
+      setLocation(props.location)
+      props.selectLocation(props.location)
+    }
+  }, [ props.location ])
 
   const getLocation = async () => {
     const permission = await requestForegroundPermissionsAsync()
@@ -29,7 +44,9 @@ export const LocationPicker: FC = (props) => {
     try {
       setIsFetching(true)
       const { coords } = await getCurrentPositionAsync({ timeInterval: 5000 })
-      setLocation({ lat: coords.latitude, lng: coords.longitude })
+      const location: Location = { lat: coords.latitude, lng: coords.longitude }
+      setLocation(location)
+      props.selectLocation(location)
     } catch (e) {
       Alert.alert(
         "Fail to fetch location!",
@@ -49,12 +66,20 @@ export const LocationPicker: FC = (props) => {
             ? <ActivityIndicator size="large" color={Colors.primary} />
             : <Text>No location chosen yet!</Text>
         )}
+        onPress={props.pickLocationOnMap}
       />
-      <Button
-        title="Get User Location"
-        color={Colors.primary}
-        onPress={getLocation}
-      />
+      <View style={styles.actions}>
+        <Button
+          title="Get User Location"
+          color={Colors.primary}
+          onPress={getLocation}
+        />
+        <Button
+          title="Pick on Map"
+          color={Colors.primary}
+          onPress={props.pickLocationOnMap}
+        />
+      </View>
     </View>
   )
 }
@@ -70,4 +95,9 @@ const styles = StyleSheet.create({
     borderColor: "#cccccc",
     borderWidth: 1,
   },
+  actions: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%"
+  }
 })

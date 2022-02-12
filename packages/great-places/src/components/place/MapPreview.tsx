@@ -1,16 +1,15 @@
 import React, { FC, ReactNode } from "react"
-import { Image, StyleSheet, View, ViewStyle } from "react-native"
+import { Image, StyleSheet, TouchableOpacity, ViewStyle } from "react-native"
 
 import { Const } from "../../common/const"
+import { Location } from "../../model/Location"
 
 
 interface Props {
   style?: ViewStyle
-  location?: {
-    lat: number
-    lng: number
-  }
-  fallback: ReactNode
+  location?: Location
+  fallback?: ReactNode
+  onPress?: () => void
 }
 
 export const MapPreview: FC<Props> = (props) => {
@@ -25,9 +24,12 @@ export const MapPreview: FC<Props> = (props) => {
   }
 
   return (
-    <View style={{ ...styles.root, ...props.style }}>
+    <TouchableOpacity
+      style={{ ...styles.root, ...props.style }}
+      onPress={props.onPress}
+    >
       { contents }
-    </View>
+    </TouchableOpacity>
   )
 }
 

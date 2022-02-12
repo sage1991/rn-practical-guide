@@ -7,6 +7,7 @@ import { NavigationProp } from "@react-navigation/core/src/types"
 import { MapScreen, NewPlaceScreen, PlaceDetailScreen, PlacesListScreen } from "../../screens"
 import { HeaderButton } from "../../components/ui"
 import { Colors } from "../../theme/colors"
+import { Location } from "../../model/Location"
 
 
 export type PlacesNavigatorParams = {
@@ -15,8 +16,13 @@ export type PlacesNavigatorParams = {
     title: string
     id: number
   }
-  "new-place": undefined
-  map: undefined
+  "new-place"?: {
+    location?: { lat: number, lng: number }
+  }
+  map: {
+    readonly: boolean,
+    location?: Location
+  }
 }
 
 const Stack = createStackNavigator<PlacesNavigatorParams>()

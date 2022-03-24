@@ -1,5 +1,5 @@
 {
-  "name": "great-places",
+  "name": "@harry/great-places",
   "version": "1.0.0",
   "main": ".expo/AppEntry.js",
   "private": true,

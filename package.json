@@ -1,13 +1,21 @@
 {
-  "name": "root",
+  "name": "harry",
   "private": true,
-  "scripts": {
-    "expo:init": "expo init"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
   "version": "1.0.0",
+  "scripts": {
+    "cleanup": "find . -type dir -name node_modules | xargs rm -rf"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
+    ]
+  },
   "devDependencies": {
     "expo-cli": "4.13.0",
     "lerna": "^4.0.0"

@@ -1,5 +1,5 @@
 {
-  "name": "guess-a-number",
+  "name": "@harry/guess-a-number",
   "version": "1.0.0",
   "main": ".expo/AppEntry.js",
   "scripts": {
